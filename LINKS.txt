@@ -1,1 +1,1 @@
-https://github.com/Exund/TerraWave/tree/master/Exund.TerraWave/Exund.TerraWave/bin
+https://github.com/Exund/TerraWave/tree/master/Exund.TerraWave/bin

@@ -1,0 +1,9 @@
+{
+  "Id": "exund.TerraWave",
+  "DisplayName": "TerraWave",
+  "Author": "Exund",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "Exund.TerraWave.dll",
+  "EntryMethod": "Exund.TerraWave.TerraWaveMod.Load"
+}

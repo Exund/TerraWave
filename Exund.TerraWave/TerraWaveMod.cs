@@ -10,7 +10,7 @@ namespace Exund.TerraWave
 {
 	public class TerraWaveMod
 	{
-
+		public static string assets_path;
 		public static void Load()
 		{
 			var harmony = HarmonyInstance.Create("Exund.ModOptionsTab");
@@ -20,16 +20,21 @@ namespace Exund.TerraWave
 			var Skydome_Planets = materials.First(m => m.name == "Skydome_Planets");
 			var Moon = materials.First(m => m.name == "Moon");
 
-			var asset_path = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "Assets");
+			assets_path = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "Assets");
 
 			var Skydome_Planets_Albedo = new Texture2D(0, 0);
-			Skydome_Planets_Albedo.LoadImage(File.ReadAllBytes(Path.Combine(asset_path, "Skydome_Planets_Albedo.png")));
+			Skydome_Planets_Albedo.LoadImage(File.ReadAllBytes(Path.Combine(assets_path, "Skydome_Planets_Albedo.png")));
 			Skydome_Planets.mainTexture = Skydome_Planets_Albedo;
 
 			var moon_texture = new Texture2D(0, 0);
-			moon_texture.LoadImage(File.ReadAllBytes(Path.Combine(asset_path, "moon_texture.png")));
+			moon_texture.LoadImage(File.ReadAllBytes(Path.Combine(assets_path, "moon_texture.png")));
 			Moon.mainTexture = moon_texture;
 			Moon.SetTexture("_MainTex", moon_texture);
+
+			var handler = new GameObject();
+			handler.AddComponent<AudioSource>();
+			handler.AddComponent<MusicLoader>();
+			GameObject.DontDestroyOnLoad(handler);
 		}
 	}
 

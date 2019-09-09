@@ -5,14 +5,33 @@ using Harmony;
 using UnityEngine;
 using System.Reflection;
 using System.IO;
+using ModHelper.Config;
+using Nuterra.NativeOptions;
 
 namespace Exund.TerraWave
 {
 	public class TerraWaveMod
 	{
 		public static string assets_path;
+
+		internal static KeyCode musicKeycode;
+
+
 		public static void Load()
 		{
+			ModConfig config = new ModConfig();
+			int v = (int)KeyCode.K;
+			config.TryGetConfig<int>("musicKeycode", ref v);
+			musicKeycode = (KeyCode)v;
+
+			OptionKey musicKey = new OptionKey("Music Controller toggle", "TerraWave", musicKeycode);
+			musicKey.onValueSaved.AddListener(() =>
+			{
+				musicKeycode = musicKey.SavedValue;
+				config["musicKeycode"] = (int)musicKeycode;
+				config.WriteConfigJsonFile();
+			});
+
 			var harmony = HarmonyInstance.Create("Exund.ModOptionsTab");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 

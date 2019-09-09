@@ -88,12 +88,11 @@ namespace Exund.TerraWave
 					if (index >= sounds.Count) index -= sounds.Count;
 				}
 			}
-			if (Input.GetKeyDown(KeyCode.K)) useGUILayout = !useGUILayout;
+			if (Input.GetKeyDown(TerraWaveMod.musicKeycode)) useGUILayout = !useGUILayout;
 		}
 
 		void OnGUI()
 		{
-			
 			if(init) GUI.Window(7790, new Rect(0, 0, 400, 100), DoWindow, "ＴｅｒｒａＷａｖｅ");
 		}
 

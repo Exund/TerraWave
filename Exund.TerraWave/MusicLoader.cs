@@ -22,6 +22,7 @@ namespace Exund.TerraWave
 		uint last_position;
 		uint length;
 		bool playing = false;
+		bool paused = false;
 
 		void Start()
 		{
@@ -78,14 +79,12 @@ namespace Exund.TerraWave
 			{
 				last_position = position;
 				channel.getPosition(out position, TIMEUNIT.MS);
-				
-				bool paused;
-				channel.getPaused(out paused);
-				if(position == 0 && (paused || last_position + 100 > length))
+
+				channel.getPaused(out bool paused);
+				if (position == 0 && (paused || last_position + 100 > length))
 				{
 					Stop();
-					index++;
-					if (index >= sounds.Count) index -= sounds.Count;
+					index = (index + 1) % sounds.Count;
 				}
 			}
 			if (Input.GetKeyDown(TerraWaveMod.musicKeycode)) useGUILayout = !useGUILayout;
@@ -93,7 +92,7 @@ namespace Exund.TerraWave
 
 		void OnGUI()
 		{
-			if(init) GUI.Window(7790, new Rect(0, 0, 400, 100), DoWindow, "ＴｅｒｒａＷａｖｅ");
+			if(init) GUI.Window(7790, new Rect(0, 0, 400, 140), DoWindow, "ＴｅｒｒａＷａｖｅ");
 		}
 
 		private void DoWindow(int id)
@@ -101,12 +100,22 @@ namespace Exund.TerraWave
 			current.getName(out string name, 32);
 			GUILayout.Label(name);
 			GUILayout.HorizontalSlider(position, 0, length);
+			if(GUILayout.Button(paused ? ">" : "||"))
+			{
+				paused = !paused;
+				channel.setPaused(paused);
+			}
+
 			GUILayout.BeginHorizontal();
 			bool prev = GUILayout.Button("<<");
 			bool next = GUILayout.Button(">>");
-			GUILayout.EndVertical();
+			GUILayout.EndHorizontal();
 
-			if (prev || next) Stop();
+			if (prev || next)
+			{
+				Stop();
+				paused = false;
+			}
 			if (prev) index--;
 			if (next) index++;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 using System.Reflection;
 using System.IO;
@@ -32,7 +32,7 @@ namespace Exund.TerraWave
 				config.WriteConfigJsonFile();
 			});
 
-			var harmony = HarmonyInstance.Create("Exund.ModOptionsTab");
+			var harmony = new Harmony("Exund.ModOptionsTab");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			var materials = Resources.FindObjectsOfTypeAll<Material>();
